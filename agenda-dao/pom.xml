@@ -32,7 +32,7 @@
     <dependency>
     	<groupId>com.mentoringit.proyectos</groupId>
 		<artifactId>agenda-dto</artifactId>
-		<version>1.0</version>
+		<version>${project.version}</version>
     </dependency>
     
   </dependencies>

@@ -30,8 +30,8 @@ public class ContactoDAOImpl implements ContactoDAO {
 			if(!sentencia.execute()) {
 				result = (sentencia.getUpdateCount() > 0);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException variable) {
+			variable.printStackTrace();
 		} finally {
 			ConnectionFactory.getInstancia().closeConnection();
 		}

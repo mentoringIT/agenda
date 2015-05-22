@@ -20,6 +20,10 @@ public class ContactoDAOTest {
 		Contacto contacto = new Contacto();
 		contacto.setNombre("Adrian");
 		contacto.setApellidos("Osorio");
+		
+		assertNotNull(contacto);
+		assertNotNull(contactoDAO);
+		
 		assertTrue(contactoDAO.insertarContacto(contacto));
 		
 		contacto = new Contacto();
@@ -30,37 +34,34 @@ public class ContactoDAOTest {
 	}
 	
 	@Test
-	public void obtenerTest() {
-		contactos = contactoDAO.listarContactos();	
-		for(Contacto contactoTemp : contactos) {
-			Contacto contacto = contactoDAO.obtenerContacto(contactoTemp.getContactoId());
-			assertNotNull(contacto);
-			assertTrue(contacto instanceof Contacto);
-			assertTrue(contacto.getContactoId() == contactoTemp.getContactoId());
-			System.out.println("Contacto Temp: " + contactoTemp);
-			System.out.println("Contacto: " + contacto);
-		}
-	}
-	
-	@Test
 	public void listarTest() {
 		contactos = contactoDAO.listarContactos();		
 		assertFalse(contactos.isEmpty());
 	}
 	
 	@Test
+	public void obtenerTest() {
+		
+		Contacto contacto = contactoDAO.obtenerContacto(1);
+		assertNotNull(contacto);
+		assertTrue(contacto instanceof Contacto);
+		System.out.println("Contacto: " + contacto);
+		
+	}
+	
+	
+	@Test
 	public void actuaizarTest() {
-		contactos = contactoDAO.listarContactos();	
-		for(Contacto contactoTemp : contactos) {
-			Contacto contacto = contactoDAO.obtenerContacto(contactoTemp.getContactoId());
-			contacto.setNombre(contacto.getNombre().toUpperCase());
-			contacto.setApellidos(contacto.getApellidos().toLowerCase());
-			assertTrue(contactoDAO.actualizarContacto(contacto));
-		}
-		contactos = contactoDAO.listarContactos();
-		for(Contacto contactoTemp : contactos) {
-			System.out.println(contactoTemp);
-		}
+		
+		Contacto contacto = contactoDAO.obtenerContacto(1);
+		assertNotNull(contacto);
+		assertTrue(contacto instanceof Contacto);
+		System.out.println("Contacto: " + contacto);
+		
+		contacto.setNombre(contacto.getNombre().toUpperCase());
+		contacto.setApellidos(contacto.getApellidos().toLowerCase());
+		assertTrue(contactoDAO.actualizarContacto(contacto));
+		System.out.println("Contacto: " + contacto);
 	}
 	
 	@Test
