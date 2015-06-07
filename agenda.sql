@@ -83,7 +83,7 @@ INSERT INTO `medio_contacto` (`medio_contacto_id`, `clave`, `descripcion`) VALUE
 -- Filtros para la tabla `detalle_contacto`
 --
 ALTER TABLE `detalle_contacto`
-  ADD CONSTRAINT `fk_detalle_contacto_contacto1` FOREIGN KEY (`contacto_id`) REFERENCES `contacto` (`contacto_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_detalle_contacto_contacto1` FOREIGN KEY (`contacto_id`) REFERENCES `contacto` (`contacto_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_detalle_contacto_medio_contacto` FOREIGN KEY (`medio_contacto_id`) REFERENCES `medio_contacto` (`medio_contacto_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

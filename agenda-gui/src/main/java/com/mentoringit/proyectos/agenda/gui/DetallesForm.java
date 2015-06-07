@@ -1,26 +1,42 @@
 package com.mentoringit.proyectos.agenda.gui;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JComboBox;
 import javax.swing.JTextField;
-import javax.swing.JButton;
 
 import com.mentoringit.proyectos.agenda.dao.impl.DetalleContactoDAOImpl;
 import com.mentoringit.proyectos.agenda.dao.interfaces.DetalleContactoDAO;
 import com.mentoringit.proyectos.agenda.dto.DetalleContacto;
 import com.mentoringit.proyectos.agenda.dto.MedioContacto;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 public class DetallesForm extends JInternalFrame {
+	private int detalleContactoId;
+	private int contactoId;
 	private JTextField txtValor;
 	private JComboBox cmbMedio;
 	private DetalleContactoDAO detalleContactoDAO;
-	private int contactoId;
+	
+	public void setContactoId(int contactoId) {
+		this.contactoId = contactoId;
+	}
+	
+	public void setDetalleContactoId(int detalleId) {
+		detalleContactoId = detalleId;
+	}
+	
+	public void setValor(String valor) {
+		txtValor.setText(valor);
+	}
+	
+	public void setMedio(MedioContacto medio) {
+		cmbMedio.setSelectedItem(medio);
+	}
 
 	/**
 	 * Launch the application.
@@ -43,55 +59,61 @@ public class DetallesForm extends JInternalFrame {
 	 */
 	public DetallesForm() {
 		detalleContactoDAO = new DetalleContactoDAOImpl();
+		
 		setTitle("Detalle Contacto");
-		setBounds(100, 100, 280, 130);
+		setBounds(100, 100, 247, 124);
 		getContentPane().setLayout(null);
 		
 		JLabel lblMedioDeContacto = new JLabel("Medio de Contacto");
-		lblMedioDeContacto.setBounds(10, 11, 100, 14);
+		lblMedioDeContacto.setBounds(10, 11, 105, 14);
 		getContentPane().add(lblMedioDeContacto);
 		
 		JLabel lblValor = new JLabel("Valor");
-		lblValor.setBounds(10, 39, 46, 14);
+		lblValor.setBounds(10, 36, 46, 14);
 		getContentPane().add(lblValor);
 		
 		cmbMedio = new JComboBox(MedioContacto.values());
-		cmbMedio.setBounds(108, 8, 146, 20);
+		cmbMedio.setBounds(114, 8, 111, 20);
 		getContentPane().add(cmbMedio);
 		
 		txtValor = new JTextField();
-		txtValor.setBounds(46, 36, 208, 20);
+		txtValor.setBounds(46, 33, 179, 20);
 		getContentPane().add(txtValor);
 		txtValor.setColumns(10);
 		
-		JButton cancelar = new JButton("Cancelar");
-		cancelar.addActionListener(new ActionListener() {
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		cancelar.setBounds(10, 64, 115, 23);
-		getContentPane().add(cancelar);
+		btnCancelar.setBounds(10, 61, 89, 23);
+		getContentPane().add(btnCancelar);
 		
-		JButton guardarDetalle = new JButton("Guardar");
-		guardarDetalle.addActionListener(new ActionListener() {
+		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DetalleContacto detalle = new DetalleContacto();
+				DetalleContacto detalle = new DetalleContacto(); 
 				detalle.setContactoId(contactoId);
 				detalle.setValor(txtValor.getText());
-				MedioContacto medio = (MedioContacto)cmbMedio.getSelectedItem();
+				
+				MedioContacto medio = (MedioContacto) cmbMedio.getSelectedItem();
 				detalle.setMedioContactoId(medio.getMedioContactoid());
-				detalleContactoDAO.insertarDetalle(detalle);
-				Agenda.actualizaDetalles(contactoId);
+				
+				if(detalleContactoId > 0){
+					detalle.setDetalleContactoid(detalleContactoId);
+					detalleContactoDAO.actualizarDetalle(detalle);
+				} else {
+					detalleContactoDAO.insertarDetalle(detalle);					
+				}
+				
+				Agenda.cargarDetallesContacto(contactoId);
 				dispose();
 			}
 		});
-		guardarDetalle.setBounds(139, 64, 115, 23);
-		getContentPane().add(guardarDetalle);
-	}
-	
-	public void setIdContacto(int contactoId){
-		this.contactoId = contactoId;
+		btnGuardar.setBounds(132, 64, 89, 23);
+		getContentPane().add(btnGuardar);
+
 	}
 	
 }
